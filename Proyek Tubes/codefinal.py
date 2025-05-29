@@ -6,9 +6,9 @@ import time
 # Pengaturan Audio untuk PyAudio
 FORMAT = pyaudio.paInt16      # Format audio 16-bit integer
 CHANNELS = 1                  # Mono channel
-RATE = 44100                 # Sample rate 44.1 KHz (CD quality)
-CHUNK = 1024                 # Jumlah sample per buffer
-RECORD_SECONDS = 3           # Durasi rekam audio dan video
+RATE = 44100                  # Sample rate 44.1 KHz (CD quality)
+CHUNK = 1024                  # Jumlah sample per buffer
+RECORD_SECONDS = 3            # Durasi rekam audio dan video
 
 # Rentang frekuensi untuk klasifikasi suara hewan
 FREQ_ANJING_MAX = 300        # Batas maksimum frekuensi anjing (Hz)
@@ -47,7 +47,8 @@ def tampil_awal_dengan_gambar(cap):
         elif key == ord('q'):
             return "exit"
 
-def streaming_kamera_dengan_overlay(cap, gambar_hewan, hewan_terdeteksi, ukuran_overlay=(200,200)):
+def streaming_kamera_dengan_overlay(cap, gambar_hewan, hewan_terdeteksi, ukuran_overlay=(200,200)): 
+    """Streaming kamera dengan overlay gambar hewan."""
     overlay_resized = cv2.resize(gambar_hewan, ukuran_overlay)
 
     print(f"📹 Streaming kamera dengan overlay: {hewan_terdeteksi}. Tekan 'q' untuk keluar.")
