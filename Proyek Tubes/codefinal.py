@@ -3,16 +3,25 @@ import pyaudio
 import numpy as np
 import time
 
-# Pengaturan Audio
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 44100
-CHUNK = 1024
-RECORD_SECONDS = 3  # Durasi rekam audio dan video
+# Pengaturan Audio untuk PyAudio
+FORMAT = pyaudio.paInt16      # Format audio 16-bit integer
+CHANNELS = 1                  # Mono channel
+RATE = 44100                 # Sample rate 44.1 KHz (CD quality)
+CHUNK = 1024                 # Jumlah sample per buffer
+RECORD_SECONDS = 3           # Durasi rekam audio dan video
 
-# Rentang frekuensi (perkirakan)
-FREQ_ANJING_MAX = 200
-FREQ_KAMBING_MAX = 700
+# Rentang frekuensi untuk klasifikasi suara hewan
+FREQ_ANJING_MAX = 300        # Batas maksimum frekuensi anjing (Hz)
+FREQ_KAMBING_MAX = 1000      # Batas maksimum frekuensi kambing (Hz)
+MIN_RMS_THRESHOLD = 700      # Batas minimum volume suara yang diterima
+
+def calculate_rms(data):
+    """
+    Menghitung Root Mean Square (RMS) untuk mengukur volume suara.
+    RMS tinggi = suara keras, RMS rendah = suara pelan
+    """
+    data_float = data.astype(np.float32)
+    return np.sqrt(np.mean(data_float**2))
 
 def tampil_awal_dengan_gambar(cap):
     """Tampilkan gambar hewan dan kamera. Tekan 's'=start, 'q'=keluar."""
@@ -30,7 +39,7 @@ def tampil_awal_dengan_gambar(cap):
 
         frame_resized = cv2.resize(frame, (barisan_gambar.shape[1], 300))
         tampilan = np.vstack((barisan_gambar, frame_resized))
-        cv2.imshow("Tekan 's'=mulai, 'q'=keluar", tampilan)
+        cv2.imshow("Tirukan Suara Hewan ini!!", tampilan)
 
         key = cv2.waitKey(1) & 0xFF
         if key == ord('s'):
@@ -59,6 +68,7 @@ def streaming_kamera_dengan_overlay(cap, gambar_hewan, hewan_terdeteksi, ukuran_
     cv2.destroyAllWindows()
 
 def rekam_dan_analisis(cap):
+    # Inisialisasi PyAudio dan buka stream untuk rekaman
     audio = pyaudio.PyAudio()
     stream = audio.open(format=FORMAT, channels=CHANNELS,
                         rate=RATE, input=True,
@@ -88,31 +98,37 @@ def rekam_dan_analisis(cap):
     cv2.destroyAllWindows()
 
     if not frames_audio:
-        print("⚠️ Tidak ada data audio.")
+        print("⚠ Tidak ada data audio.")
         return
 
     audio_np = np.frombuffer(b''.join(frames_audio), dtype=np.int16)
-    fft_data = np.fft.fft(audio_np)
-    freqs = np.fft.fftfreq(len(fft_data), 1.0/RATE)
-    idx = np.where(freqs > 0)
-    fft_positive = np.abs(fft_data[idx])
-    freqs_positive = freqs[idx]
+    
+    # Tambahkan pengecekan RMS
+    rms_value = calculate_rms(audio_np)
+    print(f"📊 RMS suara yang direkam: {rms_value:.2f}")
 
-    if len(fft_positive) == 0:
-        print("⚠️ Data frekuensi kosong.")
+    if rms_value < MIN_RMS_THRESHOLD:
+        print(f"⚠ Suara terlalu pelan (RMS: {rms_value:.2f}). Coba lebih keras!")
         return
 
-    dominant_freq = freqs_positive[np.argmax(fft_positive)]
-    print(f"🎵 Frekuensi dominan: {dominant_freq:.2f} Hz")
+    print("✅ Suara cukup keras, melanjutkan analisis frekuensi...")
+    
+    # Analisis Frekuensi menggunakan FFT
+    fft_data = np.fft.fft(audio_np)                    # Transformasi Fourier
+    freqs = np.fft.fftfreq(len(fft_data), 1.0/RATE)    # Konversi ke Hz
+    idx = np.where(freqs > 0)                          # Ambil frekuensi positif
+    fft_positive = np.abs(fft_data[idx])               # Magnitude frekuensi
+    freqs_positive = freqs[idx]
 
-    # Deteksi jenis hewan
-    if dominant_freq < FREQ_ANJING_MAX:
+    # Deteksi jenis hewan berdasarkan frekuensi dominan
+    dominant_freq = freqs_positive[np.argmax(fft_positive)]
+    if dominant_freq < FREQ_ANJING_MAX:           # Frek < 300 Hz = Anjing
         hewan_terdeteksi = "Anjing 🐕"
         gambar = cv2.imread("Hewan/gambar/anjing.png")
-    elif dominant_freq < FREQ_KAMBING_MAX:
+    elif dominant_freq < FREQ_KAMBING_MAX:        # Frek < 1000 Hz = Kambing
         hewan_terdeteksi = "Kambing 🐐"
         gambar = cv2.imread("Hewan/gambar/kambing.png")
-    else:
+    else:                                         # Frek >= 1000 Hz = Kucing
         hewan_terdeteksi = "Kucing 🐈"
         gambar = cv2.imread("Hewan/gambar/kucing.png")
 
