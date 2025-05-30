@@ -1,6 +1,38 @@
 # Animal Sound Detection & AR 🎤🐾
 
-Program untuk mendeteksi suara hewan berdasarkan frekuensi suara yang ditirukan pengguna, kemudian menampilkan gambar hewan yang terdeteksi menggunakan Augmented Reality (AR) sederhana.
+> Proyek Multimedia 2025: Sistem Deteksi Suara Hewan dengan Augmented Reality
+
+Sistem interaktif yang memungkinkan pengguna untuk menirukan suara hewan dan mendapatkan feedback visual melalui Augmented Reality. Program menggunakan analisis frekuensi FFT untuk mengklasifikasikan suara dan menampilkan gambar hewan yang sesuai dalam tampilan AR real-time.
+
+## Tim Pengembang
+
+| Nama | NIM | GitHub |
+|------|-----|--------|
+| Martua Kevin A.M.H.Lubis | 122140119 | [@martua122140119](http://github.com/martua122140119) |
+| Dyo Dwi Carol Bukit | 122140145 | [@DyoBukit](https://github.com/DyoBukit) |
+| Rafelina Octa Ladelavia| 122140082 | [@Rafelinaoctaa](https://github.com/Rafelinaoctaa) |
+
+## Progress Log
+
+### Week 1 (1-7 Mei 2025)
+- [x] Setup project structure dan dependencies
+- [x] Implementasi audio capture dengan PyAudio
+- [x] Pengujian rekaman suara dasar
+
+### Week 2 (8-14 Mei 2025)
+- [x] Implementasi analisis FFT untuk deteksi frekuensi
+- [x] Kalibrasi threshold frekuensi untuk tiap hewan
+- [x] Integrasi deteksi volume dengan RMS
+
+### Week 3 (15-21 Mei 2025)
+- [x] Setup camera capture dengan OpenCV
+- [x] Implementasi AR overlay untuk gambar hewan
+- [x] Testing integrasi audio-visual
+
+### Week 4 (22-28 Mei 2025)
+- [x] UI/UX improvements
+- [x] Bug fixing dan optimasi performa
+- [x] Dokumentasi dan finalisasi
 
 ## Fitur Utama
 
@@ -30,6 +62,13 @@ Proyek Tubes/
 Program membutuhkan library Python berikut:
 ```bash
 pip install opencv-python numpy pyaudio
+```
+
+## Installation
+
+Install all required dependencies using:
+```bash
+pip install -r requirements.txt
 ```
 
 ## Cara Penggunaan
