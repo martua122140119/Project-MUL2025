@@ -4,6 +4,7 @@
 
 Sistem interaktif yang memungkinkan pengguna untuk menirukan suara hewan dan mendapatkan feedback visual melalui Augmented Reality. Program menggunakan analisis frekuensi FFT untuk mengklasifikasikan suara dan menampilkan gambar hewan yang sesuai dalam tampilan AR real-time.
 
+Video Demo : [Video Demo](https://drive.google.com/file/d/15ly4UvXe3HkUlfBYv3_hNZ6Eii_Z3cIk/view?usp=sharing)
 ## Tim Pengembang
 
 | Nama | NIM | GitHub |
@@ -12,27 +13,25 @@ Sistem interaktif yang memungkinkan pengguna untuk menirukan suara hewan dan men
 | Dyo Dwi Carol Bukit | 122140145 | [@DyoBukit](https://github.com/DyoBukit) |
 | Rafelina Octa Ladelavia| 122140082 | [@Rafelinaoctaa](https://github.com/Rafelinaoctaa) |
 
-## Progress Log
+## Progress Mingguan
 
-### Week 1 (1-7 Mei 2025)
-- [x] Setup project structure dan dependencies
-- [x] Implementasi audio capture dengan PyAudio
-- [x] Pengujian rekaman suara dasar
+### Week 1 (5 - 10 Mei 2025)
+-  Membuat repositoty pada Github dan mengundang anggota tim dan dosen.
 
-### Week 2 (8-14 Mei 2025)
-- [x] Implementasi analisis FFT untuk deteksi frekuensi
-- [x] Kalibrasi threshold frekuensi untuk tiap hewan
-- [x] Integrasi deteksi volume dengan RMS
+### Week 2 (12 -17 Mei 2025)
+-  Membuat struktur folder untuk aset dan kode pertama (Dyo)
+-  Implementasi analisis fft untuk deteksi frekuensi audio hewan
 
-### Week 3 (15-21 Mei 2025)
-- [x] Setup camera capture dengan OpenCV
-- [x] Implementasi AR overlay untuk gambar hewan
-- [x] Testing integrasi audio-visual
+### Week 3 (19 - 24 Mei 2025)
+-  Menambahkan kode kedua menggunakan mfcc (Kevin)
+-  Implementasi menggunakan mfcc untuk deteksi suara hewan
+-  Pengujian: Akurasi analisis frekuensi dengan menggunakan dataset suara hewan
 
-### Week 4 (22-28 Mei 2025)
-- [x] UI/UX improvements
-- [x] Bug fixing dan optimasi performa
-- [x] Dokumentasi dan finalisasi
+### Week 4 (22-30 Mei 2025)
+-  Membuat kode 3 menggunakan fft (Rafelina)
+-  Mengganti fitur yang digunakan dari mfcc ke fft
+-  Bug fixing dan optimasi performa
+-  Dokumentasi dan finalisasi
 
 ## Fitur Utama
 
@@ -97,7 +96,7 @@ pip install -r requirements.txt
   * Durasi rekam: 3 detik
 
 * Deteksi Suara:
-  * Volume minimum (RMS threshold): 700
+  * Volume minimum (RMS threshold): 500
   * Threshold frekuensi anjing: < 300 Hz
   * Threshold frekuensi kambing: 300-1000 Hz
   * Threshold frekuensi kucing: > 1000 Hz

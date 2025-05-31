@@ -13,7 +13,7 @@ RECORD_SECONDS = 3            # Durasi rekam audio dan video
 # Rentang frekuensi untuk klasifikasi suara hewan
 FREQ_ANJING_MAX = 300        # Batas maksimum frekuensi anjing (Hz)
 FREQ_KAMBING_MAX = 1000      # Batas maksimum frekuensi kambing (Hz)
-MIN_RMS_THRESHOLD = 700      # Batas minimum volume suara yang diterima
+MIN_RMS_THRESHOLD = 500      # Batas minimum volume suara yang diterima
 
 def calculate_rms(data):
     """
@@ -62,7 +62,7 @@ def streaming_kamera_dengan_overlay(cap, gambar_hewan, hewan_terdeteksi, ukuran_
         h, w, _ = overlay_resized.shape
         frame[0:h, 0:w] = overlay_resized
 
-        cv2.imshow("Kamera dengan Overlay Hewan", frame)
+        cv2.imshow("Suara Hewan Terdeteksi", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
